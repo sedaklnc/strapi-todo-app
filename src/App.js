@@ -7,7 +7,7 @@ function App() {
   return (
     <div>
       <Todo />
-      <TodoForm />
+      {/*   <TodoForm /> */}
       <TodoList />
     </div>
   );
