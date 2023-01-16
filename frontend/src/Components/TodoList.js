@@ -3,11 +3,21 @@ import TodoForm from "./TodoForm";
 import { MdOutlineDoneAll } from "react-icons/md";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { AiOutlineEdit } from "react-icons/ai";
+import axios from "axios";
 
 export default function TodoList() {
   const [todoList, setTodoList] = useState([]);
   const [edit, setEdit] = useState(null);
+  const [todos, setTodos] = useState([]);
 
+  useEffect(() => {
+    const getTodos = async () => {
+      const { data } = await axios.get("http://localhost:1337/api/todos");
+      setTodos(data);
+      console.log(data);
+    };
+    getTodos();
+  }, []);
   const handleDelete = ({ id }) => {
     setTodoList(todoList.filter((todo) => todo.id !== id));
   };
@@ -17,11 +27,9 @@ export default function TodoList() {
     setEdit(findTodo);
   };
 
-  useEffect(() => {
+  /*  useEffect(() => {
     console.log(todoList);
-  }, [todoList]);
-
-  return (
+  }, [todoList]) */ return (
     <div>
       <h1>Hola What Do You Want To Do</h1>
       <TodoForm
