@@ -52,7 +52,7 @@ export default function TodoForm(props) {
         Hola What Do You Want To Do
       </h1>
       <div className="relative w-80">
-        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none ">
+        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none ">
           <BsListStars className="fill-ring-blue-500 w-5 h-8" />
         </div>
         <input
