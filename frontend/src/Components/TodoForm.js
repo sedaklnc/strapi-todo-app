@@ -1,40 +1,61 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { BsListStars } from "react-icons/bs";
 
 export default function TodoForm(props) {
   const [item, setItem] = useState("");
 
-  const updateTodo = (title, id, completed) => {
+  const updateTodo = async (content, id, completed) => {
+    await axios.put(`http://localhost:1337/api/todos/${id}`, {
+      data: { content: content, completed: completed },
+    });
+
     const newTodo = props.todoList.map((todo) => {
       if (todo.id === id) {
-        return { text: title, id, completed };
+        return {
+          ...todo,
+          attributes: {
+            ...todo.attributes,
+            content: content,
+            completed: completed,
+            updatedAt: new Date(),
+          },
+        };
       } else return todo;
     });
 
-    props.setTodoList([...newTodo]);
+    props.setTodoList(newTodo);
     props.setEdit("");
   };
 
   useEffect(() => {
     if (props.editTodo) {
-      setItem(props.editTodo.text);
+      console.log(props.editTodo);
+      setItem(props.editTodo.attributes.content);
     } else {
       setItem("");
     }
-  }, [props.editTodo, setItem]);
+  }, [props.editTodo]);
 
-  const handleSubmit = (e) => {
+  const createTodos = async (content) => {
+    const { data } = await axios.post("http://localhost:1337/api/todos", {
+      data: { content: content },
+    });
+
+    console.log(data);
+    return data.data;
+  };
+
+  const handleSubmit = async (e) => {
     // prevent refresh page
     e.preventDefault();
 
     if (!props.editTodo) {
-      props.setTodoList([
-        ...props.todoList,
-        { id: Math.floor(Math.random() * 10000), text: item, completed: false },
-      ]);
+      const todo = await createTodos(item);
+      props.setTodoList([...props.todoList, todo]);
       setItem("");
     } else {
-      updateTodo(item, props.editTodo.id, props.editTodo.completed);
+      updateTodo(item, props.editTodo.id, props.editTodo.attributes.completed);
     }
   };
 

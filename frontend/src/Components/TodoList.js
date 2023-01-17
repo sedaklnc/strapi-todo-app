@@ -8,7 +8,6 @@ import axios from "axios";
 export default function TodoList() {
   const [todoList, setTodoList] = useState([]);
   const [edit, setEdit] = useState(null);
-  /*  const [todos, setTodos] = useState([]); */
 
   const getTodos = async () => {
     const { data } = await axios.get("http://localhost:1337/api/todos");
@@ -26,9 +25,8 @@ export default function TodoList() {
     setTodoList(todoList.filter((todo) => todo.id !== id));
   };
 
-  const handleChange = ({ id }) => {
-    const findTodo = todoList.find((todo) => todo.id === id);
-    setEdit(findTodo);
+  const handleChange = (id) => {
+    setEdit(todoList.find((todo) => todo.id === id));
   };
 
   return (
@@ -55,18 +53,13 @@ export default function TodoList() {
           </span>
 
           <div className="flex flex-row">
-            <button
-            /* onClick={() => handleComplete(todo)} */
-            >
+            <button onClick={() => handleComplete(todo.id)}>
               <MdOutlineDoneAll className="  h-5 w-10 fill-purple-600 rounded hover:fill-pink-600" />
             </button>
-            <button className="change-input" onClick={() => handleChange(todo)}>
+            <button onClick={() => handleChange(todo.id)}>
               <AiOutlineEdit className="  h-5 w-10 fill-pink-600 hover:fill-blue-600 rounded" />
             </button>
-            <button
-              className="delete-input"
-              onClick={() => handleDelete(todo.id)}
-            >
+            <button onClick={() => handleDelete(todo.id)}>
               <RiDeleteBin5Line className="  h-5 w-10 fill-blue-600 hover:fill-purple-600 rounded" />
             </button>
           </div>
