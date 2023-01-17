@@ -31,7 +31,6 @@ export default function TodoList() {
     console.log(todoList);
   }, [todoList]) */ return (
     <div>
-      <h1>Hola What Do You Want To Do</h1>
       <TodoForm
         todoList={todoList}
         setTodoList={setTodoList}
@@ -39,24 +38,26 @@ export default function TodoList() {
         setEdit={setEdit}
       />
 
-      {todoList.map((todo, index) => (
-        <li className="todo-list" key={todo.id}>
+      {todoList.map((todo) => (
+        <li className="list-none ml-7 mt-3 p-4" key={todo.id}>
           <input
+            className="text-lg font-serif hover:text-blue-600"
             type="text"
             onChange={(e) => e.preventDefault()}
             value={todo.text}
           />
-          <div>
+
+          <div className="flex flex-row">
             <button
-              className="complete" /* onClick={() => handleComplete(todo)} */
+            /* onClick={() => handleComplete(todo)} */
             >
-              <MdOutlineDoneAll />
+              <MdOutlineDoneAll className="  h-5 w-10 fill-purple-600 rounded hover:fill-pink-600" />
             </button>
             <button className="change-input" onClick={() => handleChange(todo)}>
-              <AiOutlineEdit />
+              <AiOutlineEdit className="  h-5 w-10 fill-pink-600 hover:fill-blue-600 rounded" />
             </button>
             <button className="delete-input" onClick={() => handleDelete(todo)}>
-              <RiDeleteBin5Line />
+              <RiDeleteBin5Line className="  h-5 w-10 fill-blue-600 hover:fill-purple-600 rounded" />
             </button>
           </div>
         </li>
