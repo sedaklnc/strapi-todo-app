@@ -29,6 +29,13 @@ export default function TodoList() {
     setEdit(todoList.find((todo) => todo.id === id));
   };
 
+  const handleComplete = async (todo) => {
+    await axios.put(`http://localhost:1337/api/todos/${todo.id}`, {
+      data: { completed: !todo.attributes.completed },
+    });
+    await getTodos();
+  };
+
   return (
     <div>
       <TodoForm
@@ -38,33 +45,35 @@ export default function TodoList() {
         setEdit={setEdit}
       />
 
-      {todoList.map((todo) => (
-        <li
-          className="list-none ml-7 mt-3 p-4 flex items-center justify-between"
-          key={todo.id}
-        >
-          <span
-            className="text-lg font-serif hover:text-blue-600"
-            type="text"
-            /* onChange={(e) => e.preventDefault()}
-            value={todo.text} */
+      <ul className="flex flex-col gap-y-4 max-h-60 h-60 overflow-y-auto list-none  scrollbar-thin  scrollbar-thumb-pink-600 scrollbar-track-transparent hover:scrollbar-thumb-blue-600 scrollbar-track-rounded-md ease-in duration-300  scrollbar-thumb-rounded shadow-2xl shadow-purple-500/40  ">
+        {todoList.map((todo) => (
+          <li
+            className=" ml-7 p-4 flex items-center justify-between"
+            key={todo.id}
           >
-            {todo.attributes.content}
-          </span>
+            <span
+              className={`text-lg font-serif hover:text-blue-600 ${
+                todo.attributes.completed ? "line-through" : ""
+              }`}
+              type="text"
+            >
+              {todo.attributes.content}
+            </span>
 
-          <div className="flex flex-row">
-            <button onClick={() => handleComplete(todo.id)}>
-              <MdOutlineDoneAll className="  h-5 w-10 fill-purple-600 rounded hover:fill-pink-600" />
-            </button>
-            <button onClick={() => handleChange(todo.id)}>
-              <AiOutlineEdit className="  h-5 w-10 fill-pink-600 hover:fill-blue-600 rounded" />
-            </button>
-            <button onClick={() => handleDelete(todo.id)}>
-              <RiDeleteBin5Line className="  h-5 w-10 fill-blue-600 hover:fill-purple-600 rounded" />
-            </button>
-          </div>
-        </li>
-      ))}
+            <div className="flex flex-row">
+              <button onClick={() => handleComplete(todo)}>
+                <MdOutlineDoneAll className="  h-5 w-10 fill-purple-600 rounded hover:fill-pink-600" />
+              </button>
+              <button onClick={() => handleChange(todo.id)}>
+                <AiOutlineEdit className="  h-5 w-10 fill-pink-600 hover:fill-blue-600 rounded" />
+              </button>
+              <button onClick={() => handleDelete(todo.id)}>
+                <RiDeleteBin5Line className="  h-5 w-10 fill-blue-600 hover:fill-purple-600 rounded" />
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

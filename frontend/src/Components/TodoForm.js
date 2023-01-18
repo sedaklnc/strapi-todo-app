@@ -68,8 +68,7 @@ export default function TodoForm(props) {
       className="flex flex-col justify-center items-center mt-10"
       onSubmit={handleSubmit}
     >
-      {" "}
-      <h1 className="marker:text-5xl pb-11 text-center font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
+      <h1 className="marker:text-5xl pb-11 p-7 text-center font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
         Hola What Do You Want To Do
       </h1>
       <div className="relative w-80">
